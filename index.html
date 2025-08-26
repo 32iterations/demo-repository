@@ -23,11 +23,17 @@
             --serenity: #92A8D1;
             --dark-blue: #0F172A;
         }
+        html {
+             scroll-snap-type: y mandatory;
+        }
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #F8F9FA;
             color: var(--dark-blue);
             overflow-x: hidden;
+        }
+        section, header.hero-bg {
+            scroll-snap-align: start;
         }
         .font-serif-brand {
             font-family: 'Noto Serif TC', serif;
@@ -79,8 +85,8 @@
             align-items: center;
             overflow-x: auto;
             padding: 2rem 0;
-            padding-left: calc(50vw - 140px);
-            padding-right: calc(50vw - 140px);
+            scroll-snap-type: x mandatory;
+            scroll-padding: 0 50%; 
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -92,24 +98,21 @@
             box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer; position: relative; overflow: hidden;
+            scroll-snap-align: center;
         }
-        .team-card.active { flex: 0 0 450px; width: 450px; }
-        .team-card:not(.active) { flex: 0 0 150px; width: 150px; }
+        .team-card:first-child { margin-left: calc(50vw - 140px); }
+        .team-card:last-child { margin-right: calc(50vw - 140px); }
+        .team-card.active { transform: scale(1.1); }
         .team-card-content { display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; }
         .team-card img {
             width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
             border: 4px solid white; box-shadow: 0 0 15px rgba(0,0,0,0.1); transition: all 0.5s ease;
         }
-        .team-card.active img { width: 140px; height: 140px; }
-        .team-card:not(.active) img { width: 100px; height: 100px; }
-        .member-info { transition: opacity 0.5s ease, transform 0.5s ease; }
-        .team-card:not(.active) .member-info { opacity: 0; transform: translateY(20px); height: 0; overflow: hidden; }
-        .team-card.active .member-info { opacity: 1; transform: translateY(0); }
+        .member-info { transition: opacity 0.5s ease; opacity: 0; }
+        .team-card.active .member-info { opacity: 1; }
         .member-name { transition: all 0.5s ease; }
-        .team-card:not(.active) .member-name { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); width: 100%; }
         .member-img-placeholder { background-color: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--dark-blue); }
         
-        /* Modal Styles */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.8);
@@ -246,13 +249,13 @@
             </div>
         </section>
 
-        <section id="team" class="py-20 md:py-28 fade-in-section overflow-hidden">
+        <section id="team" class="py-20 md:py-28 fade-in-section">
             <div class="container mx-auto px-4">
                 <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-6">團隊成員</h2>
                 <p class="text-center text-slate-500 -mt-2 mb-12 text-sm">（依姓氏筆劃排序）</p>
             </div>
             <div id="team-container">
-                </div>
+            </div>
         </section>
     </main>
 
@@ -263,7 +266,7 @@
     
     <div id="ai-modal" class="modal">
         <div id="ai-modal-content" class="modal-content relative">
-            </div>
+        </div>
     </div>
 
     <script>
@@ -273,26 +276,37 @@
                 { name: '茆鎮育', school: '國立陽明交通大學 電機工程學系', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E8%8C%86%E9%8E%AE%E8%82%B2.jpg', detail: '擁有深厚的軟硬體整合與系統開發能力，是團隊中負責將演算法落地實現為穩定可靠產品的工程主力。' },
                 { name: '陳安楷', school: '國立清華大學 工學院學士班', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E9%99%B3%E5%AE%89%E6%A5%B7.jpg', detail: '擁有出色的問題解析與跨領域溝通能力，在團隊中扮演著將複雜科學問題轉化為可執行技術方案的關鍵橋樑。' },
                 { name: '張沂竣', school: '國立陽明交通大學 百川學士學位學程', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E5%BC%B5%E6%B2%82%E7%AB%A3.jpg', detail: '對前瞻技術充滿熱情，並具備將其商業化的敏銳洞察力。在團隊中負責探索創新應用場景與專案的可行性分析。' },
-                { name: '蔡秀吉', school: '國立陽明交通大學、國立清華大學', img: 'https://www.gravatar.com/avatar/0a5b6532aa59d7b245c2f682acd8f3f9c7abd502f628fb9e8970cbcf3c67bb97', detail: '具備豐富的專案管理與社群領導經驗，負責團隊的策略規劃與外部資源整合，確保團隊高效運作並朝著正確的目標前進。' }
+                { name: '蔡秀吉', school: '國立陽明交通大學 百川學士學位學程', img: 'https://gravatar.com/avatar/0a5b6532aa59d7b245c2f682acd8f3f9c7abd502f628fb9e8970cbcf3c67bb97?v=1755056309000&size=256&d=initials', detail: '具備豐富的專案管理與社群領導經驗，負責團隊的策略規劃與外部資源整合，確保團隊高效運作並朝著正確的目標前進。' }
             ];
 
             const teamContainer = document.getElementById('team-container');
             teamData.forEach(member => {
                 const card = document.createElement('div');
                 card.className = 'team-card';
-                card.innerHTML = `<div class="team-card-content"><img src="${member.img}" alt="${member.name}的照片" loading="lazy" onerror="this.onerror=null; this.outerHTML = \`<div class='w-full h-full rounded-full member-img-placeholder font-serif-brand'>${member.name.charAt(0)}</div>\`"><div class="member-name mt-4"><h3 class="text-xl font-bold text-slate-800">${member.name}</h3></div><div class="member-info mt-2"><p class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 text-sm mb-3 font-semibold">${member.school}</p><p class="text-slate-500 text-sm">${member.detail}</p></div></div>`;
+                card.innerHTML = `<div class="team-card-content"><img src="${member.img}" alt="${member.name}的照片" loading="lazy" onerror="this.onerror=null; this.outerHTML = \`<div class='w-full h-full rounded-full member-img-placeholder font-serif-brand'>${member.name.charAt(0)}</div>\`"><div class="mt-4"><h3 class="member-name text-xl font-bold text-slate-800">${member.name}</h3><div class="member-info mt-2"><p class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 text-sm mb-3 font-semibold">${member.school}</p><p class="text-slate-500 text-sm">${member.detail}</p></div></div></div>`;
                 teamContainer.appendChild(card);
             });
             
             const cards = document.querySelectorAll('.team-card');
             if (cards.length > 0) {
-                cards[0].classList.add('active');
+                cards[Math.floor(cards.length / 2)].classList.add('active'); // Activate middle card
             }
+            
+            // Intersection Observer to track the active card while scrolling
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelector('.team-card.active')?.classList.remove('active');
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { root: teamContainer, threshold: 0.6 });
+
             cards.forEach(card => {
                 card.addEventListener('click', () => {
-                    document.querySelector('.team-card.active')?.classList.remove('active');
-                    card.classList.add('active');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 });
+                cardObserver.observe(card);
             });
             
             const nav = document.getElementById('navbar');
