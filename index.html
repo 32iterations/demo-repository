@@ -24,11 +24,17 @@
             --serenity: #92A8D1;
             --dark-blue: #0F172A;
         }
+        html {
+             scroll-snap-type: y mandatory;
+        }
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #F8F9FA;
             color: var(--dark-blue);
             overflow-x: hidden;
+        }
+        section {
+            scroll-snap-align: start;
         }
         .font-serif-brand {
             font-family: 'Noto Serif TC', serif;
@@ -75,13 +81,16 @@
         .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
         
+        /* Interactive Team Section Styles - REVISED */
         #team-container {
             display: flex;
             align-items: center;
             overflow-x: auto;
             padding: 2rem 0;
-            padding-left: calc(50vw - 140px);
-            padding-right: calc(50vw - 140px);
+            /* Scroll Snap */
+            scroll-snap-type: x mandatory;
+            scroll-padding: 0 50%; /* Helps center the snap */
+            /* Hide Scrollbar */
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -93,21 +102,20 @@
             box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer; position: relative; overflow: hidden;
+            /* Scroll Snap */
+            scroll-snap-align: center;
         }
-        .team-card.active { flex: 0 0 450px; width: 450px; }
-        .team-card:not(.active) { flex: 0 0 150px; width: 150px; }
+        .team-card:first-child { margin-left: calc(50vw - 140px); }
+        .team-card:last-child { margin-right: calc(50vw - 140px); }
+        .team-card.active { transform: scale(1.1); }
         .team-card-content { display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; }
         .team-card img {
             width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
             border: 4px solid white; box-shadow: 0 0 15px rgba(0,0,0,0.1); transition: all 0.5s ease;
         }
-        .team-card.active img { width: 140px; height: 140px; }
-        .team-card:not(.active) img { width: 100px; height: 100px; }
-        .member-info { transition: opacity 0.5s ease, transform 0.5s ease; }
-        .team-card:not(.active) .member-info { opacity: 0; transform: translateY(20px); height: 0; overflow: hidden; }
-        .team-card.active .member-info { opacity: 1; transform: translateY(0); }
+        .member-info { transition: opacity 0.5s ease; opacity: 0; }
+        .team-card.active .member-info { opacity: 1; }
         .member-name { transition: all 0.5s ease; }
-        .team-card:not(.active) .member-name { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); width: 100%; }
         .member-img-placeholder { background-color: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--dark-blue); }
         
         /* Modal Styles */
@@ -226,34 +234,22 @@
                     <div class="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg shadow-md flex flex-col">
                         <h3 class="text-xl font-bold text-slate-800 mb-2">打造未來校園</h3>
                         <p class="text-slate-600 mb-4 flex-grow">整合現有「校園智慧通」，解決穩定性問題，並提供更個人化的智慧教學與親師生互動體驗。</p>
-                        <div class="mt-auto pt-4 border-t border-blue-200">
-                            <p class="text-sm text-slate-700"><strong>AI 技術應用：</strong></p>
-                            <p class="text-sm text-slate-600">運用<strong>生成式 AI 技術</strong>，為學生自動產出個人化複習題庫與 AI 助教，實現真正的因材施教。</p>
-                        </div>
+                        <button class="generate-idea-btn mt-auto bg-slate-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors duration-300 w-full" data-idea="campus">✨ 產生專案細節</button>
                     </div>
                     <div class="bg-gradient-to-br from-rose-50 to-white p-6 rounded-lg shadow-md flex flex-col">
                         <h3 class="text-xl font-bold text-slate-800 mb-2">市民新生活</h3>
                         <p class="text-slate-600 mb-4 flex-grow">將「新竹通」從資訊入口升級為市民的數位助理，主動推送個人化的福利與市政資訊。</p>
-                        <div class="mt-auto pt-4 border-t border-rose-200">
-                            <p class="text-sm text-slate-700"><strong>AI 技術應用：</strong></p>
-                            <p class="text-sm text-slate-600">透過<strong>多模態 AI</strong> 的圖像與語意理解能力，市民可拍照上傳市政問題 (如路面坑洞)，系統將自動辨識並派案。</p>
-                        </div>
+                        <button class="generate-idea-btn mt-auto bg-slate-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors duration-300 w-full" data-idea="citizen">✨ 產生專案細節</button>
                     </div>
                     <div class="bg-gradient-to-br from-rose-50 to-white p-6 rounded-lg shadow-md flex flex-col">
                         <h3 class="text-xl font-bold text-slate-800 mb-2">智慧永續生活圈</h3>
                         <p class="text-slate-600 mb-4 flex-grow">針對水污染等議題，建立由 AIoT 感測器組成的社區監測網，實現即時預警與公民參與。</p>
-                        <div class="mt-auto pt-4 border-t border-rose-200">
-                             <p class="text-sm text-slate-700"><strong>AI 技術應用：</strong></p>
-                             <p class="text-sm text-slate-600">利用<strong>智慧分析模型</strong>解析感測器回傳的複雜數據，自動生成市民易懂的環境品質週報或污染事件警示。</p>
-                        </div>
+                        <button class="generate-idea-btn mt-auto bg-slate-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors duration-300 w-full" data-idea="sustainability">✨ 產生專案細節</button>
                     </div>
                     <div class="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg shadow-md flex flex-col">
                         <h3 class="text-xl font-bold text-slate-800 mb-2">行人先行的智慧街道</h3>
                         <p class="text-slate-600 mb-4 flex-grow">利用 V2X 技術與 AI 視覺辨識，打造保護長者、孩童等弱勢用路人的友善通行環境。</p>
-                        <div class="mt-auto pt-4 border-t border-blue-200">
-                            <p class="text-sm text-slate-700"><strong>AI 技術應用：</strong></p>
-                            <p class="text-sm text-slate-600">透過<strong>即時影像分析 AI</strong>，辨識潛在碰撞風險 (near-miss)，動態調整號誌秒數以保護行人。</p>
-                        </div>
+                        <button class="generate-idea-btn mt-auto bg-slate-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors duration-300 w-full" data-idea="street">✨ 產生專案細節</button>
                     </div>
                 </div>
             </div>
@@ -286,7 +282,7 @@
             { name: '茆鎮育', school: '國立陽明交通大學 電機工程學系', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E8%8C%86%E9%8E%AE%E8%82%B2.jpg', detail: '擁有深厚的軟硬體整合與系統開發能力，是團隊中負責將演算法落地實現為穩定可靠產品的工程主力。' },
             { name: '陳安楷', school: '國立清華大學 工學院學士班', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E9%99%B3%E5%AE%89%E6%A5%B7.jpg', detail: '擁有出色的問題解析與跨領域溝通能力，在團隊中扮演著將複雜科學問題轉化為可執行技術方案的關鍵橋樑。' },
             { name: '張沂竣', school: '國立陽明交通大學 百川學士學位學程', img: 'https://raw.githubusercontent.com/32iterations/official-website/main/images/%E5%BC%B5%E6%B2%82%E7%AB%A3.jpg', detail: '對前瞻技術充滿熱情，並具備將其商業化的敏銳洞察力。在團隊中負責探索創新應用場景與專案的可行性分析。' },
-            { name: '蔡秀吉', school: '國立陽明交通大學 百川學士學位學程', img: 'https://avatars.githubusercontent.com/u/84045975', detail: '具備豐富的專案管理與社群領導經驗，負責團隊的策略規劃與外部資源整合，確保團隊高效運作並朝著正確的目標前進。' }
+            { name: '蔡秀吉', school: '國立陽明交通大學、國立清華大學', img: 'https://avatars.githubusercontent.com/u/84045975', detail: '具備豐富的專案管理與社群領導經驗，負責團隊的策略規劃與外部資源整合，確保團隊高效運作並朝著正確的目標前進。' }
         ];
 
         // --- Interactive Team Section Logic (No changes needed) ---
@@ -352,7 +348,10 @@
             const responseContainer = document.getElementById('ai-response-container');
             
             try {
-                const responseStream = await puter.ai.chat(prompt, {
+                // 將格式化指令附加到原始 prompt 的末尾
+                const fullPrompt = prompt + "\n\n請直接使用 HTML 格式回覆，例如用 `<strong>` 標籤來表示粗體，用 `<br>` 來換行。";
+                
+                const responseStream = await puter.ai.chat(fullPrompt, {
                     model: 'google/gemini-2.0-flash-lite-001',
                     stream: true
                 });
@@ -361,7 +360,8 @@
                 
                 for await (const part of responseStream) {
                     if (part?.text) {
-                        responseContainer.innerHTML += part.text.replace(/\n/g, '<br>');
+                        // 因為 AI 現在直接輸出 HTML，我們不再需要做任何轉換
+                        responseContainer.innerHTML += part.text;
                     }
                 }
 
